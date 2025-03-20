@@ -1,0 +1,232 @@
+@import "tailwindcss";
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+header {
+  box-shadow: 1px 5px 1px 1px rgb(2, 104, 104);
+}
+
+.equation,
+.solver {
+  box-shadow: 3px 2px 3px 1px rgba(0, 0, 0, 0.1);
+}
+input {
+  border: 2px solid gray;
+  /* max-width: 60px;
+  max-height: 40px; */
+  margin-right: 10px;
+  display: inline-block;
+  outline: none;
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.variable {
+  margin-left: -6px;
+}
+.variable,
+.operator {
+  font-style: italic;
+  font-size: 32px;
+  font-weight: 700;
+}
+@media (max-width: 930px) {
+  .main-container {
+    padding-inline: 0;
+  }
+  .equations-container {
+    padding-inline: 8px;
+  }
+  .equation {
+    padding-inline: 14px;
+  }
+  .solver input {
+    max-width: 30px;
+    height: 30px;
+  }
+  .reset,
+  .convertor,
+  .equation button {
+    padding: 3px 6px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 825px) {
+  .main-container {
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  .equation {
+    width: 95vw;
+  }
+  .solver {
+    /* align-self: center; */
+    width: 95vw;
+    margin-inline: 6px;
+  }
+  .solver h1 {
+    font-size: 21px;
+  }
+  .solver input {
+    max-width: 50px;
+    height: 50px;
+  }
+  .reset,
+  .convertor,
+  .equation button {
+    padding: 6px 10px;
+    font-size: 16px;
+  }
+}
+@media (max-width: 570px) {
+  .equation p {
+    font-size: 12px;
+  }
+  .equation h2 {
+    font-size: 26px;
+  }
+  .solver h1 {
+    font-size: 17px;
+  }
+  .solver input {
+    max-width: 35px;
+    height: 35px;
+  }
+  .reset,
+  .convertor,
+  .equation button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 380px) {
+  .equations-container {
+    padding-inline: 4px;
+  }
+  .equation h2 {
+    font-size: 22px;
+  }
+  .solver {
+    margin-inline: 4px;
+    padding-right: 6px;
+  }
+  .solver h1 {
+    font-size: 15px;
+  }
+  .solver input {
+    max-width: 29px;
+    height: 29px;
+  }
+  .reset,
+  .convertor,
+  .equation button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 350px) {
+  .equations-container {
+    padding-inline: 4px;
+  }
+  .equation h2 {
+    font-size: 16px;
+  }
+  .solver {
+    margin-inline: 0px;
+    padding-right: 4px;
+  }
+  .solver > div:nth-child(1) {
+    gap: 6px;
+  }
+  .solver h1 {
+    font-size: 15px;
+  }
+  .solver input {
+    max-width: 26px;
+    height: 26px;
+  }
+  .inputs span {
+    font-size: 24px;
+  }
+}
+@media (max-width: 290px) {
+  .equation p {
+    font-size: 10px;
+  }
+  .equation h2 {
+    font-size: 18px;
+  }
+  .solver {
+    margin-inline: 4px;
+    padding-right: 6px;
+  }
+  .solver h1 {
+    font-size: 15px;
+  }
+  .solver input {
+    max-width: 21px;
+    height: 21px;
+  }
+  .inputs span {
+    font-size: 18px;
+  }
+  .reset,
+  .convertor,
+  .equation button {
+    padding: 3px 5px;
+    font-size: 12px;
+  }
+}
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
