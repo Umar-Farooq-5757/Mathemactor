@@ -10,7 +10,10 @@ const Equation = ({ equationType, equation, clickHandler }) => {
           {/* <h2 className='text-3xl font-bold italic'>ax<sup>2</sup> + bx + c = 0</h2> */}
           <h2 className="text-3xl font-bold italic">{equation}</h2>
         </div>
-        <button onClick={clickHandler} className="bg-[#00695C] hover:scale-105 cursor-pointer text-white transition-all active:scale-[.90] duration-100 font-bold py-1 px-2 rounded-md">
+        <button
+          onClick={clickHandler}
+          className="bg-[#00695C] hover:scale-105 cursor-pointer text-white transition-all active:scale-[.90] duration-100 font-bold py-1 px-2 rounded-md"
+        >
           Solve
         </button>
       </section>

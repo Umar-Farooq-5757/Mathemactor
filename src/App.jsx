@@ -5,7 +5,8 @@ import Equation from "../components/Equation.jsx";
 import DefaultScreen from "../components/formulas/DefaultScreen.jsx";
 import LinearEquation from "../components/formulas/linearEquation.jsx";
 import QuadraticEquation from "../components/formulas/QuadraticEquation.jsx";
-import CubicEquation from "../components/formulas/CubicEquation.jsx";
+import SquaredBinomial from "../components/formulas/SquaredBinomial.jsx";
+import CubicBinomial from "../components/formulas/CubicBinomial.jsx";
 
 function App() {
   const [activeTab, setActiveTab] = useState("DefaultScreen");
@@ -17,6 +18,7 @@ function App() {
         <Header />
         <main className="main-container flex items-start px-2">
           <section className="equations w-[60%]">
+            <h1 className="text-3xl font-bold ml-3">Equations:</h1>
             <Equation
               clickHandler={() => setActiveTab("LinearEquation")}
               equationType="Solve linear equation"
@@ -31,21 +33,32 @@ function App() {
                 </span>
               }
             />
+            <h1 className="text-3xl font-bold ml-3 mt-4">Expressions:</h1>
             <Equation
-            clickHandler={()=>setActiveTab("CubicEquation")}
-              equationType="Solve cubic equation"
+              clickHandler={() => setActiveTab("SquaredBinomial")}
+              equationType="Solve squared binomial"
               equation={
                 <span>
-                  ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0
+                  (a + b)<sup>2</sup>
+                </span>
+              }
+            />
+            <Equation
+              clickHandler={() => setActiveTab("CubicBinomial")}
+              equationType="Solve cubic binomial"
+              equation={
+                <span>
+                  (a + b)<sup>3</sup>
                 </span>
               }
             />
           </section>
-          <section className="solver w-[40%]">
-            {activeTab === "DefaultScreen" && <DefaultScreen/>}
-            {activeTab === "LinearEquation" && <LinearEquation/>}
-            {activeTab === "QuadraticEquation" && <QuadraticEquation/>}
-            {activeTab === "CubicEquation" && <CubicEquation/>}
+          <section className="solver w-[40%] mt-10">
+            {activeTab === "DefaultScreen" && <DefaultScreen />}
+            {activeTab === "LinearEquation" && <LinearEquation />}
+            {activeTab === "QuadraticEquation" && <QuadraticEquation />}
+            {activeTab === "SquaredBinomial" && <SquaredBinomial />}
+            {activeTab === "CubicBinomial" && <CubicBinomial />}
           </section>
         </main>
       </div>
@@ -54,23 +67,3 @@ function App() {
 }
 
 export default App;
-
-// import React, { useState } from 'react';
-
-// function Tabs() {
-//   const [activeTab, setActiveTab] = useState('About');
-
-//   return (
-//     <div>
-//       <button onClick={() => setActiveTab('About')}>About</button>
-//       <button onClick={() => setActiveTab('Projects')}>Projects</button>
-//       <button onClick={() => setActiveTab('Contact')}>Contact</button>
-
-//       {activeTab === 'About' && <div>This is the About section.</div>}
-//       {activeTab === 'Projects' && <div>Here are my awesome projects!</div>}
-//       {activeTab === 'Contact' && <div>You can contact me here.</div>}
-//     </div>
-//   );
-// }
-
-// export default Tabs;

@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
+import decimalToFraction from "./DecimalToFraction";
 
 const QuadraticEquation = () => {
   const quadraticTermInput = useRef();
@@ -36,45 +37,21 @@ const QuadraticEquation = () => {
       } else {
         let result1 = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
         answer1.current.innerText = (
-            decimalToFraction(result1.toFixed(2)).numerator / decimalToFraction(result1.toFixed(2)).denominator
+          decimalToFraction(result1.toFixed(2)).numerator /
+          decimalToFraction(result1.toFixed(2)).denominator
         ).toFixed(2);
         let result2 = (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a);
         answer2.current.innerText = (
-            decimalToFraction(result2.toFixed(2)).numerator / decimalToFraction(result2.toFixed(2)).denominator
+          decimalToFraction(result2.toFixed(2)).numerator /
+          decimalToFraction(result2.toFixed(2)).denominator
         ).toFixed(2);
       }
-      //   answer.current.innerText = (
-      //     decimalToFraction(result.toFixed(2)).numerator /
-      //     decimalToFraction(result.toFixed(2)).denominator
-      //   ).toFixed(2);
     } else {
       warning.current.style.display = "inline-block";
       setTimeout(() => {
         warning.current.style.display = "none";
       }, 3000);
     }
-  }
-
-  function decimalToFraction(decimal) {
-    if (Number.isInteger(decimal)) {
-      return { numerator: decimal, denominator: 1 };
-    }
-
-    const decimalString = decimal.toString();
-    const decimalPlaces = decimalString.split(".")[1].length;
-    const numerator = decimal * Math.pow(10, decimalPlaces);
-    const denominator = Math.pow(10, decimalPlaces);
-
-    function greatestCommonDivisor(a, b) {
-      return b ? greatestCommonDivisor(b, a % b) : a;
-    }
-
-    const commonDivisor = greatestCommonDivisor(numerator, denominator);
-
-    return {
-      numerator: numerator / commonDivisor,
-      denominator: denominator / commonDivisor,
-    };
   }
 
   function convertor() {
@@ -91,7 +68,10 @@ const QuadraticEquation = () => {
       let a = quadraticTermInput.current.value;
       let result1 = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
       let result2 = (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a);
-      if (answer1.current.innerText.includes(".") && answer2.current.innerText.includes(".")) {
+      if (
+        answer1.current.innerText.includes(".") &&
+        answer2.current.innerText.includes(".")
+      ) {
         answer1.current.innerText = `${
           decimalToFraction(result1.toFixed(2)).numerator
         }/${decimalToFraction(result1.toFixed(2)).denominator}`;

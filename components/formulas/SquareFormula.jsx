@@ -1,14 +1,14 @@
 import React from "react";
 import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
-import decimalToFraction from "./DecimalToFraction";
 
-const LinearEquation = () => {
+const SquareFormula = () => {
   const linearTermInput = useRef();
   const constantTermInputOnLHS = useRef();
   const constantTermInputOnRHS = useRef();
   const answer = useRef();
   const warning = useRef();
+  // answer.current.innerText = "___";
   function clearInputs() {
     linearTermInput.current.value = "";
     constantTermInputOnLHS.current.value = "";
@@ -37,6 +37,28 @@ const LinearEquation = () => {
         warning.current.style.display = "none";
       }, 3000);
     }
+  }
+
+  function decimalToFraction(decimal) {
+    if (Number.isInteger(decimal)) {
+      return { numerator: decimal, denominator: 1 };
+    }
+
+    const decimalString = decimal.toString();
+    const decimalPlaces = decimalString.split(".")[1].length;
+    const numerator = decimal * Math.pow(10, decimalPlaces);
+    const denominator = Math.pow(10, decimalPlaces);
+
+    function greatestCommonDivisor(a, b) {
+      return b ? greatestCommonDivisor(b, a % b) : a;
+    }
+
+    const commonDivisor = greatestCommonDivisor(numerator, denominator);
+
+    return {
+      numerator: numerator / commonDivisor,
+      denominator: denominator / commonDivisor,
+    };
   }
 
   function converter() {
@@ -131,4 +153,4 @@ const LinearEquation = () => {
   );
 };
 
-export default LinearEquation;
+export default SquareFormula;

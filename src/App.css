@@ -2,11 +2,20 @@
 * {
   box-sizing: border-box;
 }
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+.dark-mode {
+  --background-color: black;
+  --text-color: white;
+}
 body {
   font-family: "Nunito Sans", sans-serif;
 }
 header {
   box-shadow: 1px 5px 1px 1px rgb(2, 104, 104);
+  padding-inline: 60px;
 }
 
 .equation,
@@ -15,8 +24,8 @@ header {
 }
 input {
   border: 2px solid gray;
-  /* max-width: 60px;
-  max-height: 40px; */
+  max-width: 60px;
+  max-height: 40px;
   margin-right: 10px;
   display: inline-block;
   outline: none;
@@ -40,6 +49,9 @@ input[type="number"]::-webkit-inner-spin-button {
   font-weight: 700;
 }
 @media (max-width: 930px) {
+  header {
+    padding-inline: 40px;
+  }
   .main-container {
     padding-inline: 0;
   }
@@ -61,10 +73,12 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 @media (max-width: 825px) {
+  header {
+    padding-inline: 30px;
+  }
   .main-container {
     flex-direction: column;
     justify-content: center;
-
   }
   .equation {
     width: 95vw;
@@ -80,6 +94,7 @@ input[type="number"]::-webkit-inner-spin-button {
   .solver input {
     max-width: 50px;
     height: 50px;
+    font-size: 32px;
   }
   .reset,
   .convertor,
@@ -89,6 +104,9 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 @media (max-width: 570px) {
+  header {
+    padding-inline: 20px;
+  }
   .equation p {
     font-size: 12px;
   }
@@ -110,6 +128,9 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 @media (max-width: 380px) {
+  header {
+    padding-inline: 10px;
+  }
   .equations-container {
     padding-inline: 4px;
   }
@@ -126,6 +147,7 @@ input[type="number"]::-webkit-inner-spin-button {
   .solver input {
     max-width: 29px;
     height: 29px;
+    font-size: 22px;
   }
   .reset,
   .convertor,
@@ -135,6 +157,9 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 @media (max-width: 350px) {
+  header {
+    padding-inline: 6px;
+  }
   .equations-container {
     padding-inline: 4px;
   }
@@ -154,12 +179,16 @@ input[type="number"]::-webkit-inner-spin-button {
   .solver input {
     max-width: 26px;
     height: 26px;
+    font-size: 16px;
   }
   .inputs span {
     font-size: 24px;
   }
 }
 @media (max-width: 290px) {
+  header {
+    padding-inline: 6px;
+  }
   .equation p {
     font-size: 10px;
   }

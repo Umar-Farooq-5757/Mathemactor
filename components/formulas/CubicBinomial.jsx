@@ -3,28 +3,24 @@ import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "./DecimalToFraction";
 
-const LinearEquation = () => {
-  const linearTermInput = useRef();
-  const constantTermInputOnLHS = useRef();
-  const constantTermInputOnRHS = useRef();
+const CubicBinomial = () => {
+  const a = useRef();
+  const b = useRef();
   const answer = useRef();
   const warning = useRef();
   function clearInputs() {
-    linearTermInput.current.value = "";
-    constantTermInputOnLHS.current.value = "";
-    constantTermInputOnRHS.current.value = "";
-    answer.current.innerText = "___";
+    a.current.value = "";
+    b.current.value = "";
+    answer.current.innerText = "____";
   }
   function calculateResult() {
-    if (
-      linearTermInput.current.value &&
-      constantTermInputOnLHS.current.value &&
-      constantTermInputOnRHS.current.value
-    ) {
+    if (a.current.value && b.current.value) {
       let result =
-        (constantTermInputOnRHS.current.value -
-          constantTermInputOnLHS.current.value) /
-        linearTermInput.current.value;
+        a.current.value ** 3 +
+        b.current.value ** 3 +
+        3 * a.current.value ** 2 * b.current.value +
+        3 * a.current.value * b.current.value ** 2;
+
       answer.current.innerText = (
         decimalToFraction(result.toFixed(2)).numerator /
         decimalToFraction(result.toFixed(2)).denominator
@@ -40,15 +36,12 @@ const LinearEquation = () => {
   }
 
   function converter() {
-    if (
-      linearTermInput.current.value &&
-      constantTermInputOnLHS.current.value &&
-      constantTermInputOnRHS.current.value
-    ) {
+    if (a.current.value && b.current.value) {
       let result =
-        (constantTermInputOnRHS.current.value -
-          constantTermInputOnLHS.current.value) /
-        linearTermInput.current.value;
+        a.current.value ** 3 +
+        b.current.value ** 3 +
+        3 * a.current.value ** 2 * b.current.value +
+        3 * a.current.value * b.current.value ** 2;
       if (answer.current.innerText.includes(".")) {
         answer.current.innerText = `${
           decimalToFraction(result.toFixed(2)).numerator
@@ -65,7 +58,7 @@ const LinearEquation = () => {
     <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
-          Enter the coefficients of linear equation:
+          Enter the values of variables:
         </h1>
         <button
           onClick={clearInputs}
@@ -75,26 +68,17 @@ const LinearEquation = () => {
         </button>
       </div>
       <div className="inputs flex items-center justify-start gap-3 my-3">
-        <div className="flex items-center justify-center">
-          <input
-            className="max-w-10 h-10"
-            ref={linearTermInput}
-            type="number"
-          />
-          <span className="variable">x</span>
-        </div>
-        <span className="operator">+</span>{" "}
-        <input
-          className="max-w-10 h-10"
-          ref={constantTermInputOnLHS}
-          type="number"
-        />
-        <span className="operator">=</span>
-        <input
-          className="max-w-10 h-10"
-          ref={constantTermInputOnRHS}
-          type="number"
-        />
+        <span style={{ fontSize: "38px", fontWeight: "bold" }}>(</span>
+        <input ref={a} type="number" />
+        <span
+          style={{ fontSize: "38px", fontWeight: "bold" }}
+          className="operator"
+        >
+          +
+        </span>
+        <input ref={b} type="number" />
+        <span style={{ fontSize: "38px", fontWeight: "bold" }}>)</span>
+        <sup style={{ fontSize: "24px", fontWeight: "bold" }}>3</sup>
       </div>
       <div className="relative">
         <p
@@ -114,9 +98,12 @@ const LinearEquation = () => {
         <div className="result text-lg overflow-hidden">
           <h2 className="font-bold text-lg mb-1">Result:</h2>
           <div className="text-2xl">
-            <b>x</b> ={" "}
+            <b>
+              (a + b)<sup>3</sup>
+            </b>{" "}
+            ={" "}
             <span ref={answer} className="answer1">
-              ___
+              ____
             </span>
           </div>
         </div>
@@ -131,4 +118,4 @@ const LinearEquation = () => {
   );
 };
 
-export default LinearEquation;
+export default CubicBinomial;
