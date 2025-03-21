@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 import Equation from "../components/Equation.jsx";
 import DefaultScreen from "../components/formulas/DefaultScreen.jsx";
 import LinearEquation from "../components/formulas/equations/linearEquation.jsx";
@@ -58,7 +59,10 @@ function App() {
               equationType="Solve customized binomial"
               equation={
                 <span>
-                  (a + b)<sup><i>x</i></sup>
+                  (a + b)
+                  <sup>
+                    <i>x</i>
+                  </sup>
                 </span>
               }
             />
@@ -72,6 +76,7 @@ function App() {
             {activeTab === "CustomizedBinomial" && <CustomizedBinomial />}
           </section>
         </main>
+        <Footer />
       </div>
     </>
   );
