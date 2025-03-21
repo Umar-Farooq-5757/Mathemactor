@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
-import decimalToFraction from "./DecimalToFraction";
+import decimalToFraction from "../DecimalToFraction";
 
 const QuadraticEquation = () => {
   const quadraticTermInput = useRef();

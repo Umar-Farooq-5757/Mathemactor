@@ -1,25 +1,23 @@
 import React from "react";
 import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
-import decimalToFraction from "./DecimalToFraction";
+import decimalToFraction from "../DecimalToFraction";
 
-const CubicBinomial = () => {
+const CustomizedBinomial = () => {
   const a = useRef();
   const b = useRef();
+  const power = useRef();
   const answer = useRef();
   const warning = useRef();
   function clearInputs() {
     a.current.value = "";
     b.current.value = "";
+    power.current.value = "";
     answer.current.innerText = "____";
   }
   function calculateResult() {
-    if (a.current.value && b.current.value) {
-      let result =
-        a.current.value ** 3 +
-        b.current.value ** 3 +
-        3 * a.current.value ** 2 * b.current.value +
-        3 * a.current.value * b.current.value ** 2;
+    if (a.current.value && b.current.value && power.current.value) {
+      let result = (Number(a.current.value) + Number(b.current.value)) ** power.current.value;
 
       answer.current.innerText = (
         decimalToFraction(result.toFixed(2)).numerator /
@@ -36,12 +34,9 @@ const CubicBinomial = () => {
   }
 
   function converter() {
-    if (a.current.value && b.current.value) {
-      let result =
-        a.current.value ** 3 +
-        b.current.value ** 3 +
-        3 * a.current.value ** 2 * b.current.value +
-        3 * a.current.value * b.current.value ** 2;
+    if (a.current.value && b.current.value && power.current.value) {
+      let result = (Number(a.current.value) + Number(b.current.value)) ** power.current.value;
+
       if (answer.current.innerText.includes(".")) {
         answer.current.innerText = `${
           decimalToFraction(result.toFixed(2)).numerator
@@ -58,7 +53,7 @@ const CubicBinomial = () => {
     <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
-          Enter the values of variables:
+          Enter the values of variables and power:
         </h1>
         <button
           onClick={clearInputs}
@@ -78,7 +73,13 @@ const CubicBinomial = () => {
         </span>
         <input ref={b} type="number" />
         <span style={{ fontSize: "38px", fontWeight: "bold" }}>)</span>
-        <sup style={{ fontSize: "24px", fontWeight: "bold" }}>3</sup>
+        <sup style={{ fontSize: "24px", fontWeight: "bold" }}>
+          <input
+            ref={power}
+            style={{ maxWidth: "25px", height: "25px", fontSize:"20px" }}
+            type="number"
+          />
+        </sup>
       </div>
       <div className="relative">
         <p
@@ -99,7 +100,10 @@ const CubicBinomial = () => {
           <h2 className="font-bold text-lg mb-1">Result:</h2>
           <div className="text-2xl">
             <b>
-              (a + b)<sup>3</sup>
+              (a + b)
+              <sup>
+                <i>x</i>
+              </sup>
             </b>{" "}
             ={" "}
             <span ref={answer} className="answer1">
@@ -118,4 +122,4 @@ const CubicBinomial = () => {
   );
 };
 
-export default CubicBinomial;
+export default CustomizedBinomial;

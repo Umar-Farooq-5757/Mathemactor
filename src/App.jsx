@@ -3,10 +3,11 @@ import { useState } from "react";
 import Header from "../components/Header.jsx";
 import Equation from "../components/Equation.jsx";
 import DefaultScreen from "../components/formulas/DefaultScreen.jsx";
-import LinearEquation from "../components/formulas/linearEquation.jsx";
-import QuadraticEquation from "../components/formulas/QuadraticEquation.jsx";
-import SquaredBinomial from "../components/formulas/SquaredBinomial.jsx";
-import CubicBinomial from "../components/formulas/CubicBinomial.jsx";
+import LinearEquation from "../components/formulas/equations/linearEquation.jsx";
+import QuadraticEquation from "../components/formulas/equations/QuadraticEquation.jsx";
+import SquaredBinomial from "../components/formulas/expressions/SquaredBinomial.jsx";
+import CubicBinomial from "../components/formulas/expressions/CubicBinomial.jsx";
+import CustomizedBinomial from "../components/formulas/expressions/CustomizedBinomial.jsx";
 
 function App() {
   const [activeTab, setActiveTab] = useState("DefaultScreen");
@@ -52,6 +53,15 @@ function App() {
                 </span>
               }
             />
+            <Equation
+              clickHandler={() => setActiveTab("CustomizedBinomial")}
+              equationType="Solve customized binomial"
+              equation={
+                <span>
+                  (a + b)<sup><i>x</i></sup>
+                </span>
+              }
+            />
           </section>
           <section className="solver w-[40%] mt-10">
             {activeTab === "DefaultScreen" && <DefaultScreen />}
@@ -59,6 +69,7 @@ function App() {
             {activeTab === "QuadraticEquation" && <QuadraticEquation />}
             {activeTab === "SquaredBinomial" && <SquaredBinomial />}
             {activeTab === "CubicBinomial" && <CubicBinomial />}
+            {activeTab === "CustomizedBinomial" && <CustomizedBinomial />}
           </section>
         </main>
       </div>
