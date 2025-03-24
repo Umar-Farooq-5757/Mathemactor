@@ -2,6 +2,9 @@
 * {
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 :root {
   --background-color: white;
   --text-color: black;
@@ -130,6 +133,9 @@ input[type="number"]::-webkit-inner-spin-button {
 @media (max-width: 380px) {
   header {
     padding-inline: 10px;
+  }
+  header section {
+    gap: 5px;
   }
   .equations-container {
     padding-inline: 4px;

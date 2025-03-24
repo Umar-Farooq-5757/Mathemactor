@@ -1,6 +1,6 @@
 import React from "react";
 
-const Equation = ({ equationType, equation, clickHandler }) => {
+const Equation = ({ equationType, equation, clickHandler, linkToSolver }) => {
   return (
     <main className="equations-container mt-3 px-3">
       <section className="equation bg-[#fff] border border-gray-400 rounded-lg py-3 px-6 pl-10 flex justify-between items-center">
@@ -10,12 +10,14 @@ const Equation = ({ equationType, equation, clickHandler }) => {
           {/* <h2 className='text-3xl font-bold italic'>ax<sup>2</sup> + bx + c = 0</h2> */}
           <h2 className="text-3xl font-bold italic">{equation}</h2>
         </div>
-        <button
-          onClick={clickHandler}
-          className="bg-[#00695C] hover:scale-105 cursor-pointer text-white transition-all active:scale-[.90] duration-100 font-bold py-1 px-2 rounded-md"
-        >
-          Solve
-        </button>
+        <a href={linkToSolver}>
+          <button
+            onClick={clickHandler}
+            className="bg-[#00695C] hover:scale-105 cursor-pointer text-white transition-all active:scale-[.90] duration-100 font-bold py-1 px-2 rounded-md"
+          >
+            Solve
+          </button>
+        </a>
       </section>
     </main>
   );

@@ -4,6 +4,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 
 const CustomizedBinomial = () => {
+  // VARIABLES INITAILIZATION
   const a = useRef();
   const b = useRef();
   const power = useRef();
@@ -15,9 +16,13 @@ const CustomizedBinomial = () => {
     power.current.value = "";
     answer.current.innerText = "____";
   }
+
+  // CALCULATING THE RESULT
   function calculateResult() {
     if (a.current.value && b.current.value && power.current.value) {
-      let result = (Number(a.current.value) + Number(b.current.value)) ** power.current.value;
+      let result =
+        (Number(a.current.value) + Number(b.current.value)) **
+        power.current.value;
 
       answer.current.innerText = (
         decimalToFraction(result.toFixed(2)).numerator /
@@ -33,9 +38,12 @@ const CustomizedBinomial = () => {
     }
   }
 
+  // CONVERTING FROM DECIMAL TO FRACTION AND VICE VERSA
   function converter() {
     if (a.current.value && b.current.value && power.current.value) {
-      let result = (Number(a.current.value) + Number(b.current.value)) ** power.current.value;
+      let result =
+        (Number(a.current.value) + Number(b.current.value)) **
+        power.current.value;
 
       if (answer.current.innerText.includes(".")) {
         answer.current.innerText = `${
@@ -50,7 +58,10 @@ const CustomizedBinomial = () => {
   }
   return (
     // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
-    <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
+    <main
+      id="customizedBinomial"
+      className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80"
+    >
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
           Enter the values of variables and power:
@@ -76,7 +87,7 @@ const CustomizedBinomial = () => {
         <sup style={{ fontSize: "24px", fontWeight: "bold" }}>
           <input
             ref={power}
-            style={{ maxWidth: "25px", height: "25px", fontSize:"20px" }}
+            style={{ maxWidth: "25px", height: "25px", fontSize: "20px" }}
             type="number"
           />
         </sup>

@@ -4,6 +4,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 
 const SquaredBinomial = () => {
+  // VARIABLES INITAILIZATION
   const a = useRef();
   const b = useRef();
   const answer = useRef();
@@ -13,13 +14,15 @@ const SquaredBinomial = () => {
     b.current.value = "";
     answer.current.innerText = "____";
   }
+
+  // CALCULATING THE RESULT
   function calculateResult() {
     if (a.current.value && b.current.value) {
       // let result =
       //   a.current.value ** 2 +
       //   b.current.value ** 2 +
       //   2 * a.current.value * b.current.value;
-      let result = (Number(a.current.value) +Number(b.current.value)) ** 2;
+      let result = (Number(a.current.value) + Number(b.current.value)) ** 2;
 
       answer.current.innerText = (
         decimalToFraction(result.toFixed(2)).numerator /
@@ -35,6 +38,7 @@ const SquaredBinomial = () => {
     }
   }
 
+  // CONVERTING FROM DECIMAL TO FRACTION AND VICE VERSA
   function converter() {
     if (a.current.value && b.current.value) {
       let result =
@@ -54,7 +58,10 @@ const SquaredBinomial = () => {
   }
   return (
     // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
-    <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
+    <main
+      id="squaredBinomial"
+      className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80"
+    >
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
           Enter the values of variables:

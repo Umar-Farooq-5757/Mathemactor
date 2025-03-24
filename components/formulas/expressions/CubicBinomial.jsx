@@ -4,6 +4,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 
 const CubicBinomial = () => {
+  // VARIABLES INITAILIZATION
   const a = useRef();
   const b = useRef();
   const answer = useRef();
@@ -13,6 +14,8 @@ const CubicBinomial = () => {
     b.current.value = "";
     answer.current.innerText = "____";
   }
+
+  // CALCULATING THE RESULT
   function calculateResult() {
     if (a.current.value && b.current.value) {
       let result =
@@ -35,6 +38,7 @@ const CubicBinomial = () => {
     }
   }
 
+  // CONVERTING FROM DECIMAL TO FRACTION AND VICE VERSA
   function converter() {
     if (a.current.value && b.current.value) {
       let result =
@@ -55,7 +59,10 @@ const CubicBinomial = () => {
   }
   return (
     // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
-    <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
+    <main
+      id="cubicBinomial"
+      className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80"
+    >
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
           Enter the values of variables:

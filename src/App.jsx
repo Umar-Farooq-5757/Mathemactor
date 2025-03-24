@@ -4,7 +4,7 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import Equation from "../components/Equation.jsx";
 import DefaultScreen from "../components/formulas/DefaultScreen.jsx";
-import LinearEquation from "../components/formulas/equations/linearEquation.jsx";
+import LinearEquation from "../components/formulas/equations/LinearEquation.jsx";
 import QuadraticEquation from "../components/formulas/equations/QuadraticEquation.jsx";
 import SquaredBinomial from "../components/formulas/expressions/SquaredBinomial.jsx";
 import CubicBinomial from "../components/formulas/expressions/CubicBinomial.jsx";
@@ -25,6 +25,7 @@ function App() {
               clickHandler={() => setActiveTab("LinearEquation")}
               equationType="Solve linear equation"
               equation={<span>ax + b = 0</span>}
+              linkToSolver={"#linear"}
             />
             <Equation
               clickHandler={() => setActiveTab("QuadraticEquation")}
@@ -34,6 +35,7 @@ function App() {
                   ax<sup>2</sup> + bx + c = 0
                 </span>
               }
+              linkToSolver={"#quadratic"}
             />
             <h1 className="text-3xl font-bold ml-3 mt-4">Expressions:</h1>
             <Equation
@@ -44,6 +46,7 @@ function App() {
                   (a + b)<sup>2</sup>
                 </span>
               }
+              linkToSolver={"#squaredBinomial"}
             />
             <Equation
               clickHandler={() => setActiveTab("CubicBinomial")}
@@ -53,6 +56,7 @@ function App() {
                   (a + b)<sup>3</sup>
                 </span>
               }
+              linkToSolver={"#cubicBinomial"}
             />
             <Equation
               clickHandler={() => setActiveTab("CustomizedBinomial")}
@@ -65,6 +69,7 @@ function App() {
                   </sup>
                 </span>
               }
+              linkToSolver={"#customizedBinomial"}
             />
           </section>
           <section className="solver w-[40%] mt-10">

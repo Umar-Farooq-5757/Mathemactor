@@ -4,6 +4,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 
 const LinearEquation = () => {
+  // VARIABLES INITAILIZATION
   const linearTermInput = useRef();
   const constantTermInputOnLHS = useRef();
   const constantTermInputOnRHS = useRef();
@@ -15,6 +16,8 @@ const LinearEquation = () => {
     constantTermInputOnRHS.current.value = "";
     answer.current.innerText = "___";
   }
+
+  // CALCULATING THE RESULT
   function calculateResult() {
     if (
       linearTermInput.current.value &&
@@ -39,6 +42,7 @@ const LinearEquation = () => {
     }
   }
 
+  // CONVERTING FROM DECIMAL TO FRACTION AND VICE VERSA
   function converter() {
     if (
       linearTermInput.current.value &&
@@ -62,7 +66,10 @@ const LinearEquation = () => {
   }
   return (
     // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
-    <main className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
+    <main
+      id="linear"
+      className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80"
+    >
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
           Enter the coefficients of linear equation:
