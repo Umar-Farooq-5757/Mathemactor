@@ -13,21 +13,35 @@ import CustomizedBinomial from "../components/formulas/expressions/CustomizedBin
 function App() {
   const [activeTab, setActiveTab] = useState("DefaultScreen");
 
+  const [isDark, setIsDark] = useState(
+    JSON.parse(localStorage.getItem("isDarkMode"))
+  );
+
   return (
     <>
-      <div className="bg-[#f0f0f0] min-h-[100vh]">
+      <div
+        className={`min-h-[100vh] ${
+          isDark ? "bg-gray-900 text-white" : "bg-[#f0f0f0] text-black"
+        }`}
+      >
         {/* <div className="bg-[red] min-h-[100vh]"> */}
-        <Header />
-        <main className="main-container flex items-start px-2">
+        <Header isDark={isDark} setIsDark={setIsDark} />
+        <main
+          className={`main-container flex items-start px-2 ${
+            isDark ? "bg-gray-900 text-white" : "bg-[#f0f0f0] text-black"
+          }`}
+        >
           <section className="equations w-[60%]">
             <h1 className="text-3xl font-bold ml-3">Equations:</h1>
             <Equation
+              isDark={isDark}
               clickHandler={() => setActiveTab("LinearEquation")}
               equationType="Solve linear equation"
               equation={<span>ax + b = 0</span>}
               linkToSolver={"#linear"}
             />
             <Equation
+              isDark={isDark}
               clickHandler={() => setActiveTab("QuadraticEquation")}
               equationType="Solve quadratic equation"
               equation={
@@ -39,6 +53,7 @@ function App() {
             />
             <h1 className="text-3xl font-bold ml-3 mt-4">Expressions:</h1>
             <Equation
+              isDark={isDark}
               clickHandler={() => setActiveTab("SquaredBinomial")}
               equationType="Solve squared binomial"
               equation={
@@ -49,6 +64,7 @@ function App() {
               linkToSolver={"#squaredBinomial"}
             />
             <Equation
+              isDark={isDark}
               clickHandler={() => setActiveTab("CubicBinomial")}
               equationType="Solve cubic binomial"
               equation={
@@ -59,6 +75,7 @@ function App() {
               linkToSolver={"#cubicBinomial"}
             />
             <Equation
+              isDark={isDark}
               clickHandler={() => setActiveTab("CustomizedBinomial")}
               equationType="Solve customized binomial"
               equation={
@@ -73,15 +90,23 @@ function App() {
             />
           </section>
           <section className="solver w-[40%] mt-10">
-            {activeTab === "DefaultScreen" && <DefaultScreen />}
-            {activeTab === "LinearEquation" && <LinearEquation />}
-            {activeTab === "QuadraticEquation" && <QuadraticEquation />}
-            {activeTab === "SquaredBinomial" && <SquaredBinomial />}
-            {activeTab === "CubicBinomial" && <CubicBinomial />}
-            {activeTab === "CustomizedBinomial" && <CustomizedBinomial />}
+            {activeTab === "DefaultScreen" && <DefaultScreen isDark={isDark} />}
+            {activeTab === "LinearEquation" && (
+              <LinearEquation isDark={isDark} />
+            )}
+            {activeTab === "QuadraticEquation" && (
+              <QuadraticEquation isDark={isDark} />
+            )}
+            {activeTab === "SquaredBinomial" && (
+              <SquaredBinomial isDark={isDark} />
+            )}
+            {activeTab === "CubicBinomial" && <CubicBinomial isDark={isDark} />}
+            {activeTab === "CustomizedBinomial" && (
+              <CustomizedBinomial isDark={isDark} />
+            )}
           </section>
         </main>
-        <Footer />
+        <Footer isDark={isDark} />
       </div>
     </>
   );

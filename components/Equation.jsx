@@ -1,9 +1,9 @@
 import React from "react";
 
-const Equation = ({ equationType, equation, clickHandler, linkToSolver }) => {
+const Equation = ({ equationType, equation, clickHandler, linkToSolver, isDark}) => {
   return (
     <main className="equations-container mt-3 px-3">
-      <section className="equation bg-[#fff] border border-gray-400 rounded-lg py-3 px-6 pl-10 flex justify-between items-center">
+      <section className={`equation border border-gray-400 rounded-lg py-3 px-6 pl-10 flex justify-between items-center ${isDark? 'bg-gray-800 text-white':'bg-[#fff] text-black'}`}>
         {/* <section className="equation bg-[#a8dadc] border border-gray-400 rounded-lg py-3 px-6 pl-10 flex justify-between items-center"> */}
         <div className="flex flex-col justify-center items-start gap-1">
           <p className="text-sm">{equationType}</p>

@@ -17,7 +17,7 @@ body {
   font-family: "Nunito Sans", sans-serif;
 }
 header {
-  box-shadow: 1px 5px 1px 1px rgb(2, 104, 104);
+  box-shadow: 1px 5px 1px 1px #026868;
   padding-inline: 60px;
 }
 

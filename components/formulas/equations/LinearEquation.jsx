@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 
-const LinearEquation = () => {
+const LinearEquation = ({ isDark }) => {
   // VARIABLES INITAILIZATION
   const linearTermInput = useRef();
   const constantTermInputOnLHS = useRef();
@@ -68,7 +68,9 @@ const LinearEquation = () => {
     // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
     <main
       id="linear"
-      className="solver bg-[#e7e7e7]  border border-gray-400 rounded-sm p-3 mt-3 min-h-80"
+      className={`solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80 ${
+        isDark ? "bg-gray-800 text-white" : "bg-[#e7e7e7]: text-black"
+      }`}
     >
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">

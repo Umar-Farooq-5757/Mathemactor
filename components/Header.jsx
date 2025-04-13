@@ -4,9 +4,7 @@ import lightMode from "../images/lightMode.svg";
 import { IoGameController } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const Header = () => {
-  const [isDark, setIsDark] = useState(false);
-
+const Header = ({ isDark, setIsDark }) => {
   return (
     <header className="bg-[teal] text-white px-2 sm:px-5 mb-8">
       <nav className="flex justify-between items-center py-3 max-w-[900px] mx-auto">
@@ -19,20 +17,23 @@ const Header = () => {
             </div>
           </Link>
           <div
-            onClick={() => alert("Still working on it!")}
+            onClick={() => {
+              setIsDark(!isDark);
+              localStorage.setItem("isDarkMode", !isDark);
+            }}
             className="theme cursor-pointer"
           >
             {isDark ? (
               <img
                 className="w-6 sm:w-8 invert-100"
-                src={darkMode}
-                alt="dark_mode"
+                src={lightMode}
+                alt="light_mode"
               />
             ) : (
               <img
                 className="w-6 sm:w-8 invert-100"
-                src={lightMode}
-                alt="light_mode"
+                src={darkMode}
+                alt="dark_mode"
               />
             )}
           </div>
