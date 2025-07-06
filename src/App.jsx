@@ -89,7 +89,7 @@ function App() {
               linkToSolver={"#customizedBinomial"}
             />
           </section>
-          <section className="solver w-[40%] mt-10">
+          <section className="solver w-[40%] mt-10 mb-16">
             {activeTab === "DefaultScreen" && <DefaultScreen isDark={isDark} />}
             {activeTab === "LinearEquation" && (
               <LinearEquation isDark={isDark} />
