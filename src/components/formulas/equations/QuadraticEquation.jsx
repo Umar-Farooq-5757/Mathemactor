@@ -152,7 +152,7 @@ const QuadraticEquation = ({ isDark }) => {
         </p>
         <button
           onClick={calculateResult}
-          className="calculate bg-[#00695C] cursor-pointer text-white font-bold py-[3px] px-2 w-[100%] my-3 rounded-sm"
+          className="calculate bg-[#00695C] cursor-pointer text-white font-bold py-0.75 px-2 w-full my-3 rounded-sm"
         >
           Calculate
         </button>

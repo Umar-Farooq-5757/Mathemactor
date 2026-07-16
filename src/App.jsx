@@ -1,14 +1,14 @@
 import "./App.css";
 import { useState } from "react";
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
-import Equation from "../components/Equation.jsx";
-import DefaultScreen from "../components/formulas/DefaultScreen.jsx";
-import LinearEquation from "../components/formulas/equations/LinearEquation.jsx";
-import QuadraticEquation from "../components/formulas/equations/QuadraticEquation.jsx";
-import SquaredBinomial from "../components/formulas/expressions/SquaredBinomial.jsx";
-import CubicBinomial from "../components/formulas/expressions/CubicBinomial.jsx";
-import CustomizedBinomial from "../components/formulas/expressions/CustomizedBinomial.jsx";
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+import Equation from "./components/Equation.jsx";
+import DefaultScreen from "./components/formulas/DefaultScreen.jsx";
+import LinearEquation from "./components/formulas/equations/LinearEquation.jsx";
+import QuadraticEquation from "./components/formulas/equations/QuadraticEquation.jsx";
+import SquaredBinomial from "./components/formulas/expressions/SquaredBinomial.jsx";
+import CubicBinomial from "./components/formulas/expressions/CubicBinomial.jsx";
+import CustomizedBinomial from "./components/formulas/expressions/CustomizedBinomial.jsx";
 
 function App() {
   const [activeTab, setActiveTab] = useState("DefaultScreen");
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <div
-        className={`min-h-[100vh] ${
+        className={`min-h-screen ${
           isDark ? "bg-gray-900 text-white" : "bg-[#f0f0f0] text-black"
         }`}
       >

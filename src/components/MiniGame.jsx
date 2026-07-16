@@ -36,7 +36,7 @@ const MiniGame = () => {
     }
   };
   return (
-    <main className="bg-slate-800 min-h-[100vh] text-white flex flex-col items-center justify-center gap-10">
+    <main className="bg-slate-800 min-h-screen text-white flex flex-col items-center justify-center gap-10">
       <h1 className="uppercase text-md sm:text-3xl">
         You've gotten{" "}
         <span className="rightAnswers text-red-500 font-bold">
