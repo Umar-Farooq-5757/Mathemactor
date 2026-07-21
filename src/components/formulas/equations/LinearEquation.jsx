@@ -1,91 +1,94 @@
-import React, { useState } from "react";
-import { useRef } from "react";
+import React, { useState, useRef } from "react";
 import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
 
 const LinearEquation = ({ isDark }) => {
-  // VARIABLES INITAILIZATION
   const [linearTermInput, setLinearTermInput] = useState("");
   const [constantTermInputOnLHS, setConstantTermInputOnLHS] = useState("");
   const [constantTermInputOnRHS, setConstantTermInputOnRHS] = useState("");
   const [answer, setAnswer] = useState("___");
+  const [isFractionView, setIsFractionView] = useState(false);
   const [solution, setSolution] = useState([]);
   const warning = useRef();
+
   function clearInputs() {
     setLinearTermInput("");
     setConstantTermInputOnLHS("");
     setConstantTermInputOnRHS("");
     setAnswer("___");
+    setIsFractionView(false);
   }
 
-  // CALCULATING THE RESULT
   function calculateResult() {
     if (linearTermInput && constantTermInputOnLHS && constantTermInputOnRHS) {
-      let result =
-        (constantTermInputOnRHS - constantTermInputOnLHS) / linearTermInput;
+      const linear = Number(linearTermInput);
+      const lhs = Number(constantTermInputOnLHS);
+      const rhs = Number(constantTermInputOnRHS);
+
+      if (linear === 0) return;
+
+      const result = (rhs - lhs) / linear;
+
+      setIsFractionView(false);
+      setAnswer(result.toFixed(2));
+
       setSolution(() => {
-        const linear = Number(linearTermInput);
-        const lhs = Number(constantTermInputOnLHS);
-        const rhs = Number(constantTermInputOnRHS);
-
         const sumConstant = rhs - lhs;
-        const finalValue = sumConstant / linear;
-
         const step1 = `${linear}x ${lhs < 0 ? "-" : "+"} ${Math.abs(lhs)} &= ${rhs}`;
         const step2 = `${linear}x &= ${rhs} ${lhs < 0 ? "+" : "-"} ${Math.abs(lhs)}`;
         const step3 = `${linear}x &= ${sumConstant}`;
         const step4 = `x &= \\frac{${sumConstant}}{${linear}}`;
-        const step5 = `x &= ${finalValue.toFixed(2)}`;
+        const step5 = `x &= ${result.toFixed(2)}`;
 
         const fullEquationBlock = String.raw`\begin{aligned}
-                                  ${step1} \\
-                                  ${step2} \\
-                                  ${step3} \\
-                                  ${step4} \\
-                                  ${step5}
-                                \end{aligned}`;
+          ${step1} \\
+          ${step2} \\
+          ${step3} \\
+          ${step4} \\
+          ${step5}
+        \end{aligned}`;
         return [fullEquationBlock];
       });
-      setAnswer(
-        decimalToFraction(result.toFixed(2)).numerator /
-          decimalToFraction(result.toFixed(2)).denominator,
-      );
-      // console.log(decimalToFraction(result.toFixed(2)).numerator)
-      // console.log(decimalToFraction(result.toFixed(2)).denominator)
     } else {
-      warning.current.style.display = "inline-block";
-      setTimeout(() => {
-        warning.current.style.display = "none";
-      }, 3000);
-    }
-  }
-
-  // CONVERTING FROM DECIMAL TO FRACTION AND VICE VERSA
-  function converter() {
-    if (linearTermInput && constantTermInputOnLHS && constantTermInputOnRHS) {
-      let result =
-        (constantTermInputOnRHS - constantTermInputOnLHS) / linearTermInput;
-      if (answer.includes(".")) {
-        setAnswer(
-          decimalToFraction(result.toFixed(2)).numerator /
-            decimalToFraction(result.toFixed(2)).denominator,
-        );
-      } else {
-        setAnswer(
-          decimalToFraction(result.toFixed(2)).numerator /
-            decimalToFraction(result.toFixed(2)).denominator,
-        );
+      if (warning.current) {
+        warning.current.style.display = "inline-block";
+        setTimeout(() => {
+          if (warning.current) warning.current.style.display = "none";
+        }, 3000);
       }
     }
   }
+
+  // TOGGLE BETWEEN DECIMAL AND FRACTION
+  function converter() {
+    if (linearTermInput && constantTermInputOnLHS && constantTermInputOnRHS) {
+      const linear = Number(linearTermInput);
+      const lhs = Number(constantTermInputOnLHS);
+      const rhs = Number(constantTermInputOnRHS);
+      const result = (rhs - lhs) / linear;
+
+      if (!isFractionView) {
+        const frac = decimalToFraction(result.toFixed(2));
+        if (frac && frac.denominator !== 1) {
+          setAnswer(`${frac.numerator}/${frac.denominator}`);
+        } else {
+          setAnswer(result.toFixed(2));
+        }
+        setIsFractionView(true);
+      } else {
+        setAnswer(result.toFixed(2));
+        setIsFractionView(false);
+      }
+    }
+  }
+
   return (
-    // <main className="bg-[#DDECF8] solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80">
     <main
       id="linear"
       className={`solver border border-gray-400 rounded-sm p-3 mt-3 min-h-80 ${
-        isDark ? "bg-gray-800 text-white" : "bg-[#e7e7e7]: text-black"
+        isDark ? "bg-gray-800 text-white" : "bg-[#e7e7e7] text-black"
       }`}>
       <div className="flex justify-between items-center pr-3">
         <h1 className="text-sm font-bold mb-2">
@@ -97,31 +100,33 @@ const LinearEquation = ({ isDark }) => {
           Reset
         </button>
       </div>
+
       <div className="inputs flex items-center justify-start gap-3 my-3">
         <div className="flex items-center justify-center">
           <input
-            className="max-w-10 h-10"
+            className="max-w-10 h-10 border px-1"
             value={linearTermInput}
             onChange={(e) => setLinearTermInput(e.target.value)}
             type="number"
           />
           <span className="variable">x</span>
         </div>
-        <span className="operator">+</span>{" "}
+        <span className="operator">+</span>
         <input
-          className="max-w-10 h-10"
+          className="max-w-10 h-10 border px-1"
           value={constantTermInputOnLHS}
           onChange={(e) => setConstantTermInputOnLHS(e.target.value)}
           type="number"
         />
         <span className="operator">=</span>
         <input
-          className="max-w-10 h-10"
+          className="max-w-10 h-10 border px-1"
           value={constantTermInputOnRHS}
           onChange={(e) => setConstantTermInputOnRHS(e.target.value)}
           type="number"
         />
       </div>
+
       <div className="relative">
         <p
           ref={warning}
@@ -134,29 +139,25 @@ const LinearEquation = ({ isDark }) => {
           Calculate
         </button>
       </div>
-      {answer != "___" && (
+
+      {answer !== "___" && (
         <div>
           <h2 className="font-bold text-lg">Solution:</h2>
           <div>
-            {solution.map((equationBlock, idx) => {
-              return (
-                <div key={idx} style={{ margin: "20px 0", fontSize: "1.2rem" }}>
-                  <TeX block math={equationBlock} />
-                </div>
-              );
-            })}
+            {solution.map((equationBlock, idx) => (
+              <div key={idx} style={{ margin: "20px 0", fontSize: "1.2rem" }}>
+                <TeX block math={equationBlock} />
+              </div>
+            ))}
           </div>
         </div>
       )}
+
       <section className="flex items-center justify-between pr-4">
         <div className="result text-lg overflow-hidden">
           <h2 className="font-bold text-lg mb-1">Result:</h2>
           <div className="text-2xl">
-            <b>x</b> ={" "}
-            {/* <span ref={answer} className="answer1">
-              ___
-            </span> */}
-            <span className="answer1">{answer}</span>
+            <b>x</b> = <span className="answer1">{answer}</span>
           </div>
         </div>
         <button
