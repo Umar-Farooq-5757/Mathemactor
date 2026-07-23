@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BiTransferAlt } from "react-icons/bi";
 import decimalToFraction from "../DecimalToFraction";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
+import functionPlot from "function-plot";
 
 const LinearEquation = ({ isDark }) => {
   const [linearTermInput, setLinearTermInput] = useState("");
@@ -11,7 +12,10 @@ const LinearEquation = ({ isDark }) => {
   const [answer, setAnswer] = useState("___");
   const [isFractionView, setIsFractionView] = useState(false);
   const [solution, setSolution] = useState([]);
-  const warning = useRef(null);
+  const [warning, setWarning] = useState("");
+  const graphRef = useRef(null);
+  const [fn, setFn] = useState("");
+  const [root, setRoot] = useState(null);
 
   function clearInputs() {
     setLinearTermInput("");
@@ -19,49 +23,113 @@ const LinearEquation = ({ isDark }) => {
     setConstantTermInputOnRHS("");
     setAnswer("___");
     setIsFractionView(false);
+    setSolution([]);
+    setFn("");
+    setRoot(null);
+    setWarning("");
+  }
+
+  function showWarning(msg) {
+    setWarning(msg);
+    setTimeout(() => {
+      setWarning("");
+    }, 4000);
   }
 
   function calculateResult() {
-    if (linearTermInput && constantTermInputOnLHS && constantTermInputOnRHS) {
+    if (linearTermInput !== "" && constantTermInputOnLHS !== "" && constantTermInputOnRHS !== "") {
       const linear = Number(linearTermInput);
       const lhs = Number(constantTermInputOnLHS);
       const rhs = Number(constantTermInputOnRHS);
 
-      // if (linear === 0) return;
+      if (linear === 0) {
+        showWarning("* 'x' coefficient cannot be zero.");
+        return;
+      }
 
+      setFn(`${linear}*x + ${lhs - rhs}`);
       const result = (rhs - lhs) / linear;
+      setRoot([result, 0]);
 
       setIsFractionView(false);
       setAnswer(result.toFixed(2));
 
-      setSolution(() => {
-        const sumConstant = rhs - lhs;
-        const step1 = `${linear}x ${lhs < 0 ? "-" : "+"} ${Math.abs(lhs)} &= ${rhs}`;
-        const step2 = `${linear}x &= ${rhs} ${lhs < 0 ? "+" : "-"} ${Math.abs(lhs)}`;
-        const step3 = `${linear}x &= ${sumConstant}`;
-        const step4 = `x &= \\frac{${sumConstant}}{${linear}}`;
-        const step5 = `x &= ${result.toFixed(2)}`;
+      const sumConstant = rhs - lhs;
+      const step1 = `${linear}x ${lhs < 0 ? "-" : "+"} ${Math.abs(lhs)} &= ${rhs}`;
+      const step2 = `${linear}x &= ${rhs} ${lhs < 0 ? "+" : "-"} ${Math.abs(lhs)}`;
+      const step3 = `${linear}x &= ${sumConstant}`;
+      const step4 = `x &= \\frac{${sumConstant}}{${linear}}`;
+      const step5 = `x &= ${result.toFixed(2)}`;
 
-        const fullEquationBlock = String.raw`\begin{aligned}
-          ${step1} \\
-          ${step2} \\
-          ${step3} \\
-          ${step4} \\
-          ${step5}
-        \end{aligned}`;
-        return [fullEquationBlock];
-      });
+      const fullEquationBlock = String.raw`\begin{aligned}
+        ${step1} \\
+        ${step2} \\
+        ${step3} \\
+        ${step4} \\
+        ${step5}
+      \end{aligned}`;
+
+      setSolution([fullEquationBlock]);
+      setWarning("");
     } else {
-      if (warning.current) {
-        warning.current.style.display = "inline-block";
-        setTimeout(() => {
-          if (warning.current) warning.current.style.display = "none";
-        }, 3000);
-      }
+      showWarning("* All values are required.");
     }
   }
 
-  // TOGGLE BETWEEN DECIMAL AND FRACTION
+  useEffect(() => {
+  if (!graphRef.current || !fn) {
+    if (graphRef.current) graphRef.current.innerHTML = "";
+    return;
+  }
+
+  graphRef.current.innerHTML = "";
+
+  const linear = Number(linearTermInput);
+  const lhs = Number(constantTermInputOnLHS);
+  const rhs = Number(constantTermInputOnRHS);
+
+  const xIntercept = (rhs - lhs) / linear;
+  const yIntercept = lhs - rhs;
+
+  const maxAbsX = Math.max(Math.abs(xIntercept) * 1.5, 6);
+  const maxAbsY = Math.max(Math.abs(yIntercept) * 1.5, Math.abs(xIntercept * linear) * 1.5, 6);
+
+  const xDomain = [-maxAbsX, maxAbsX];
+  const yDomain = [-maxAbsY, maxAbsY];
+
+  try {
+    const dataSeries = [
+      {
+        fn: fn,
+        color: "#2563eb",
+        graphType: "polyline",
+      },
+    ];
+
+    if (root) {
+      dataSeries.push({
+        points: [root],
+        fnType: "points",
+        graphType: "scatter",
+        color: "#dc2626",
+        attr: { r: 6 },
+      });
+    }
+
+    functionPlot({
+      target: graphRef.current,
+      width: 470,
+      height: 400,
+      grid: true,
+      xAxis: { domain: xDomain },
+      yAxis: { domain: yDomain },
+      data: dataSeries,
+    });
+  } catch (err) {
+    console.error("Invalid math function string:", err);
+  }
+}, [fn, root, linearTermInput, constantTermInputOnLHS, constantTermInputOnRHS]);
+
   function converter() {
     if (linearTermInput && constantTermInputOnLHS && constantTermInputOnRHS) {
       const linear = Number(linearTermInput);
@@ -70,7 +138,7 @@ const LinearEquation = ({ isDark }) => {
       const result = (rhs - lhs) / linear;
 
       if (!isFractionView) {
-        const frac = decimalToFraction(result.toFixed(2));
+        const frac = decimalToFraction(result); // Pass raw result for accurate fraction matching
         if (frac && frac.denominator !== 1) {
           setAnswer(`${frac.numerator}/${frac.denominator}`);
         } else {
@@ -109,7 +177,7 @@ const LinearEquation = ({ isDark }) => {
             onChange={(e) => setLinearTermInput(e.target.value)}
             type="number"
           />
-          <span className="variable">x</span>
+          <span className="variable ml-1">x</span>
         </div>
         <span className="operator">+</span>
         <input
@@ -127,15 +195,15 @@ const LinearEquation = ({ isDark }) => {
         />
       </div>
 
-      <div className="relative">
-        <p
-          ref={warning}
-          className="warning absolute -top-2 text-sm text-red-600 hidden">
-          * All values are required.
-        </p>
+      <div className="relative pt-2">
+        {warning && (
+          <p className="warning absolute -top-2 text-sm text-red-600 font-medium">
+            {warning}
+          </p>
+        )}
         <button
           onClick={calculateResult}
-          className="calculate bg-[#00695C] cursor-pointer text-white font-bold py-0.75 px-2 w-full my-3 rounded-sm">
+          className="calculate bg-[#00695C] cursor-pointer text-white font-bold py-1 px-2 w-full my-3 rounded-sm">
           Calculate
         </button>
       </div>
@@ -153,7 +221,7 @@ const LinearEquation = ({ isDark }) => {
         </div>
       )}
 
-      <section className="flex items-center justify-between pr-4">
+      <section className="flex items-center justify-between pr-4 mt-4">
         <div className="result text-lg overflow-hidden">
           <h2 className="font-bold text-lg mb-1">Result:</h2>
           <div className="text-2xl">
@@ -166,6 +234,7 @@ const LinearEquation = ({ isDark }) => {
           S <BiTransferAlt /> D
         </button>
       </section>
+      <div ref={graphRef} className="mt-4 flex justify-center"></div>
     </main>
   );
 };
