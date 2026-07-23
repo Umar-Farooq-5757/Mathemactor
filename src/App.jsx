@@ -9,6 +9,7 @@ import QuadraticEquation from "./components/formulas/equations/QuadraticEquation
 import SquaredBinomial from "./components/formulas/expressions/SquaredBinomial.jsx";
 import CubicBinomial from "./components/formulas/expressions/CubicBinomial.jsx";
 import CustomizedBinomial from "./components/formulas/expressions/CustomizedBinomial.jsx";
+import SimultaneousEquations from "./components/formulas/equations/SimultaneousEquations.jsx";
 
 function App() {
   const [activeTab, setActiveTab] = useState("DefaultScreen");
@@ -50,6 +51,19 @@ function App() {
                 </span>
               }
               linkToSolver={"#quadratic"}
+            />
+            <Equation
+              isDark={isDark}
+              clickHandler={() => setActiveTab("SimultaneousEquations")}
+              equationType="Solve simultaneous equations"
+              equation={
+                <span>
+                  a<sub>1</sub>x + b<sub>1</sub>y + c = 0
+                  <br />
+                  a<sub>2</sub>x + b<sub>2</sub>y + c = 0
+                </span>
+              }
+              linkToSolver={"#simultaneous"}
             />
             <h1 className="text-3xl font-bold ml-3 mt-4">Expressions:</h1>
             <Equation
@@ -96,6 +110,9 @@ function App() {
             )}
             {activeTab === "QuadraticEquation" && (
               <QuadraticEquation isDark={isDark} />
+            )}
+            {activeTab === "SimultaneousEquations" && (
+              <SimultaneousEquations isDark={isDark} />
             )}
             {activeTab === "SquaredBinomial" && (
               <SquaredBinomial isDark={isDark} />

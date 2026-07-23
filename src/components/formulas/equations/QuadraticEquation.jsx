@@ -20,6 +20,7 @@ const QuadraticEquation = ({ isDark }) => {
   const graphRef = useRef(null);
   const [fn, setFn] = useState("");
   const [roots, setRoots] = useState([]);
+  const [isImaginary, setIsImaginary] = useState(false);
 
   function clearInputs() {
     setQuadraticTermInput("");
@@ -34,6 +35,7 @@ const QuadraticEquation = ({ isDark }) => {
     setWarningMsg("");
     setFn("");
     setRoots([]);
+    setIsImaginary(false);
   }
 
   function showWarning(msg) {
@@ -62,67 +64,99 @@ const QuadraticEquation = ({ isDark }) => {
       }
 
       let discriminant = b * b - 4 * a * c;
-      if (discriminant < 0) {
-        showWarning("* Imaginary roots are not supported yet.");
+      setIsFractionView(false);
+
+      if (discriminant >= 0) {
+        setIsImaginary(false);
+        const fnString = `${a}*x^2 + ${b}*x + ${c}`;
+        setFn(fnString);
+
+        let sqrtDisc = Math.sqrt(discriminant);
+        let result1 = (-b + sqrtDisc) / (2 * a);
+        let result2 = (-b - sqrtDisc) / (2 * a);
+
+        setAnswer1(result1.toFixed(2));
+        setAnswer2(result2.toFixed(2));
+
+        if (result1 === result2) {
+          setRoots([[result1, 0]]);
+        } else {
+          setRoots([
+            [result1, 0],
+            [result2, 0],
+          ]);
+        }
+
+        const step1_1 = `x_1 &= \\frac{-(${b}) + \\sqrt{(${b})^2 - 4(${a})(${c})}}{2(${a})}`;
+        const step1_2 = `x_1 &= \\frac{-${b} + \\sqrt{${discriminant}}}{${2 * a}}`;
+        const step1_3 = `x_1 &= \\frac{-${b} + ${sqrtDisc.toFixed(2)}}{${2 * a}}`;
+        const step1_4 = `x_1 &= ${result1.toFixed(2)}`;
+
+        const fullBlock1 = String.raw`\begin{aligned}
+          ${step1_1} \\
+          ${step1_2} \\
+          ${step1_3} \\
+          ${step1_4}
+        \end{aligned}`;
+
+        const step2_1 = `x_2 &= \\frac{-(${b}) - \\sqrt{(${b})^2 - 4(${a})(${c})}}{2(${a})}`;
+        const step2_2 = `x_2 &= \\frac{-${b} - \\sqrt{${discriminant}}}{${2 * a}}`;
+        const step2_3 = `x_2 &= \\frac{-${b} - ${sqrtDisc.toFixed(2)}}{${2 * a}}`;
+        const step2_4 = `x_2 &= ${result2.toFixed(2)}`;
+
+        const fullBlock2 = String.raw`\begin{aligned}
+          ${step2_1} \\
+          ${step2_2} \\
+          ${step2_3} \\
+          ${step2_4}
+        \end{aligned}`;
+
+        setSolution1([fullBlock1]);
+        setSolution2([fullBlock2]);
+      } else {
+        setIsImaginary(true);
         setFn("");
         setRoots([]);
-        return;
+
+        let absDisc = Math.abs(discriminant);
+        let sqrtAbsDisc = Math.sqrt(absDisc);
+        let realPart = -b / (2 * a);
+        let imagPart = sqrtAbsDisc / (2 * a);
+
+        let realStr = realPart.toFixed(2);
+        let imagStr = Math.abs(imagPart).toFixed(2);
+
+        setAnswer1(`${realStr} + ${imagStr}i`);
+        setAnswer2(`${realStr} - ${imagStr}i`);
+
+        const step1_1 = `x_1 &= \\frac{-(${b}) + \\sqrt{${discriminant}}}{2(${a})}`;
+        const step1_2 = `x_1 &= \\frac{-${b} + \\sqrt{${absDisc}}i}{${2 * a}}`;
+        const step1_3 = `x_1 &= \\frac{-${b}}{${2 * a}} + \\frac{${sqrtAbsDisc.toFixed(2)}}{${2 * a}}i`;
+        const step1_4 = `x_1 &= ${realStr} + ${imagStr}i`;
+
+        const fullBlock1 = String.raw`\begin{aligned}
+          ${step1_1} \\
+          ${step1_2} \\
+          ${step1_3} \\
+          ${step1_4}
+        \end{aligned}`;
+
+        const step2_1 = `x_2 &= \\frac{-(${b}) - \\sqrt{${discriminant}}}{2(${a})}`;
+        const step2_2 = `x_2 &= \\frac{-${b} - \\sqrt{${absDisc}}i}{${2 * a}}`;
+        const step2_3 = `x_2 &= \\frac{-${b}}{${2 * a}} - \\frac{${sqrtAbsDisc.toFixed(2)}}{${2 * a}}i`;
+        const step2_4 = `x_2 &= ${realStr} - ${imagStr}i`;
+
+        const fullBlock2 = String.raw`\begin{aligned}
+          ${step2_1} \\
+          ${step2_2} \\
+          ${step2_3} \\
+          ${step2_4}
+        \end{aligned}`;
+
+        setSolution1([fullBlock1]);
+        setSolution2([fullBlock2]);
       }
 
-      let sqrtDisc = Math.sqrt(discriminant);
-      let result1 = (-b + sqrtDisc) / (2 * a);
-      let result2 = (-b - sqrtDisc) / (2 * a);
-
-      setIsFractionView(false);
-      setAnswer1(result1.toFixed(2));
-      setAnswer2(result2.toFixed(2));
-
-      const fnString = `${a}*x^2 + ${b}*x + ${c}`;
-      setFn(fnString);
-
-      if (result1 === result2) {
-        setRoots([[result1, 0]]);
-      } else {
-        setRoots([
-          [result1, 0],
-          [result2, 0],
-        ]);
-      }
-
-      const step1_1 = `x_1 &= \\frac{-(${b}) + \\sqrt{(${b})^2 - 4(${a})(${c})}}{2(${a})}`;
-      const step1_2 = `x_1 &= \\frac{-${b} + \\sqrt{${b * b} - (${4 * a * c})}}{${2 * a}}`;
-      const step1_3 = `x_1 &= \\frac{-${b} + \\sqrt{${discriminant}}}{${2 * a}}`;
-      const step1_4 = `x_1 &= \\frac{-${b} + ${sqrtDisc.toFixed(2)}}{${2 * a}}`;
-      const step1_5 = `x_1 &= \\frac{${(-b + sqrtDisc).toFixed(2)}}{${2 * a}}`;
-      const step1_6 = `x_1 &= ${result1.toFixed(2)}`;
-
-      const fullBlock1 = String.raw`\begin{aligned}
-        ${step1_1} \\
-        ${step1_2} \\
-        ${step1_3} \\
-        ${step1_4} \\
-        ${step1_5} \\
-        ${step1_6}
-      \end{aligned}`;
-
-      const step2_1 = `x_2 &= \\frac{-(${b}) - \\sqrt{(${b})^2 - 4(${a})(${c})}}{2(${a})}`;
-      const step2_2 = `x_2 &= \\frac{-${b} - \\sqrt{${b * b} - (${4 * a * c})}}{${2 * a}}`;
-      const step2_3 = `x_2 &= \\frac{-${b} - \\sqrt{${discriminant}}}{${2 * a}}`;
-      const step2_4 = `x_2 &= \\frac{-${b} - ${sqrtDisc.toFixed(2)}}{${2 * a}}`;
-      const step2_5 = `x_2 &= \\frac{${(-b - sqrtDisc).toFixed(2)}}{${2 * a}}`;
-      const step2_6 = `x_2 &= ${result2.toFixed(2)}`;
-
-      const fullBlock2 = String.raw`\begin{aligned}
-        ${step2_1} \\
-        ${step2_2} \\
-        ${step2_3} \\
-        ${step2_4} \\
-        ${step2_5} \\
-        ${step2_6}
-      \end{aligned}`;
-
-      setSolution1([fullBlock1]);
-      setSolution2([fullBlock2]);
       setWarningMsg("");
     } else {
       showWarning("* All values are required.");
@@ -130,7 +164,7 @@ const QuadraticEquation = ({ isDark }) => {
   }
 
   useEffect(() => {
-    if (!graphRef.current || !fn) {
+    if (!graphRef.current || !fn || isImaginary) {
       if (graphRef.current) graphRef.current.innerHTML = "";
       return;
     }
@@ -186,6 +220,7 @@ const QuadraticEquation = ({ isDark }) => {
   }, [
     fn,
     roots,
+    isImaginary,
     quadraticTermInput,
     linearTermInput,
     constantTermInputOnLHS,
@@ -194,10 +229,10 @@ const QuadraticEquation = ({ isDark }) => {
 
   function converter() {
     if (
-      quadraticTermInput &&
-      linearTermInput &&
-      constantTermInputOnLHS &&
-      constantTermInputOnRHS
+      quadraticTermInput !== "" &&
+      linearTermInput !== "" &&
+      constantTermInputOnLHS !== "" &&
+      constantTermInputOnRHS !== ""
     ) {
       let a = Number(quadraticTermInput);
       let b = Number(linearTermInput);
@@ -206,31 +241,38 @@ const QuadraticEquation = ({ isDark }) => {
       let c = lhs - rhs;
 
       let discriminant = b * b - 4 * a * c;
-      if (discriminant < 0) return;
 
-      let result1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-      let result2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+      const formatValue = (num, asFraction) => {
+        if (asFraction) {
+          const frac = decimalToFraction(num);
+          if (frac && frac.denominator !== 1) {
+            return `${frac.numerator}/${frac.denominator}`;
+          }
+        }
+        return num.toFixed(2);
+      };
 
-      if (!isFractionView) {
-        const frac1 = decimalToFraction(result1);
-        const frac2 = decimalToFraction(result2);
+      if (discriminant >= 0) {
+        let result1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+        let result2 = (-b - Math.sqrt(discriminant)) / (2 * a);
 
-        setAnswer1(
-          frac1 && frac1.denominator !== 1
-            ? `${frac1.numerator}/${frac1.denominator}`
-            : result1.toFixed(2),
-        );
-        setAnswer2(
-          frac2 && frac2.denominator !== 1
-            ? `${frac2.numerator}/${frac2.denominator}`
-            : result2.toFixed(2),
-        );
-        setIsFractionView(true);
+        setAnswer1(formatValue(result1, !isFractionView));
+        setAnswer2(formatValue(result2, !isFractionView));
       } else {
-        setAnswer1(result1.toFixed(2));
-        setAnswer2(result2.toFixed(2));
-        setIsFractionView(false);
+        let absDisc = Math.abs(discriminant);
+        let realPart = -b / (2 * a);
+        let imagPart = Math.sqrt(absDisc) / (2 * a);
+
+        const nextStateIsFraction = !isFractionView;
+
+        let realStr = formatValue(realPart, nextStateIsFraction);
+        let imagStr = formatValue(imagPart, nextStateIsFraction);
+
+        setAnswer1(`${realStr} + ${imagStr}i`);
+        setAnswer2(`${realStr} - ${imagStr}i`);
       }
+
+      setIsFractionView(!isFractionView);
     }
   }
 
@@ -355,7 +397,9 @@ const QuadraticEquation = ({ isDark }) => {
         </button>
       </section>
 
-      <div ref={graphRef} className="mt-4 flex justify-center"></div>
+      {!isImaginary && fn && (
+        <div ref={graphRef} className="mt-4 flex justify-center"></div>
+      )}
     </main>
   );
 };
