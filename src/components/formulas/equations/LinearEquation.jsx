@@ -11,7 +11,7 @@ const LinearEquation = ({ isDark }) => {
   const [answer, setAnswer] = useState("___");
   const [isFractionView, setIsFractionView] = useState(false);
   const [solution, setSolution] = useState([]);
-  const warning = useRef();
+  const warning = useRef(null);
 
   function clearInputs() {
     setLinearTermInput("");
@@ -27,7 +27,7 @@ const LinearEquation = ({ isDark }) => {
       const lhs = Number(constantTermInputOnLHS);
       const rhs = Number(constantTermInputOnRHS);
 
-      if (linear === 0) return;
+      // if (linear === 0) return;
 
       const result = (rhs - lhs) / linear;
 
@@ -141,7 +141,7 @@ const LinearEquation = ({ isDark }) => {
       </div>
 
       {answer !== "___" && (
-        <div>
+        <div className="overflow-y-auto">
           <h2 className="font-bold text-lg">Solution:</h2>
           <div>
             {solution.map((equationBlock, idx) => (
